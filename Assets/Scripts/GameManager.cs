@@ -7,19 +7,35 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public int score;
+    public int maxMonster = 10;
 
     public Text scoreText;
-    //public Text gameOverText;
 
     public void AddScore()
     {
         score++;
         scoreText.text = score.ToString();
+
+        PlayerPrefs.SetInt("HighScore", score);
+
+        maxMonster++;
     }
 
-    public void PlayerDied()
+    public void MonsterLimit()
     {
-        SceneManager.LoadScene("GameOver");
-        Time.timeScale = 2;
+        maxMonster--;
+    }
+
+    public void Update()
+    {
+        if (maxMonster == 0)
+        {
+            PlayerDied();
+        }
+    }
+
+    void PlayerDied()
+    {
+            SceneManager.LoadScene("GameOver");
     }
 }
